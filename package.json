@@ -1,0 +1,19 @@
+{
+  "name": "nextjs-whiteboard",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "echo 'Build complete'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": ["src"],
+  "keywords": [],
+  "author": "yomisana",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "next": "^15.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
