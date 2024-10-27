@@ -57,65 +57,79 @@ var Whiteboard = function Whiteboard() {
     _useState20 = _slicedToArray(_useState19, 2),
     bgPattern = _useState20[0],
     setBgPattern = _useState20[1];
+  var _useState21 = (0, _react.useState)(10),
+    _useState22 = _slicedToArray(_useState21, 2),
+    patternSize = _useState22[0],
+    setPatternSize = _useState22[1];
+  var _useState23 = (0, _react.useState)({
+      x: 0,
+      y: 0
+    }),
+    _useState24 = _slicedToArray(_useState23, 2),
+    cursorSize = _useState24[0],
+    setCursorSize = _useState24[1];
   (0, _react.useEffect)(function () {
     var canvas = canvasRef.current;
     var ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    // 設置主題
     var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
     setTheme(prefersDark.matches ? "dark" : "light");
-
-    // 設置初始畫布狀態
-    ctx.strokeStyle = color;
-    ctx.lineWidth = size;
-    drawBackground(ctx);
     window.addEventListener("resize", handleResize);
+    drawBackground(ctx);
+    restoreDrawing();
     return function () {
       return window.removeEventListener("resize", handleResize);
     };
-  }, [color, bgColor, bgPattern]);
+  }, [bgColor, bgPattern, patternSize]);
   var handleResize = function handleResize() {
     var canvas = canvasRef.current;
     var ctx = canvas.getContext("2d");
+    var tempImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     drawBackground(ctx);
+    ctx.putImageData(tempImage, 0, 0);
   };
   var drawBackground = function drawBackground(ctx) {
+    ctx.save();
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     if (bgPattern === "dot") {
-      for (var x = 0; x < ctx.canvas.width; x += 10) {
-        for (var y = 0; y < ctx.canvas.height; y += 10) {
-          ctx.fillStyle = "#ccc";
-          ctx.fillRect(x, y, 1, 1);
+      for (var x = 0; x < ctx.canvas.width; x += patternSize * 2) {
+        for (var y = 0; y < ctx.canvas.height; y += patternSize * 2) {
+          ctx.beginPath();
+          ctx.arc(x, y, patternSize / 2, 0, Math.PI * 2);
+          ctx.fillStyle = "#999";
+          ctx.fill();
         }
       }
     } else if (bgPattern === "line") {
-      ctx.strokeStyle = "#ccc";
-      ctx.beginPath();
-      for (var _y = 0; _y < ctx.canvas.height; _y += 10) {
+      ctx.strokeStyle = "#999";
+      ctx.lineWidth = patternSize / 5;
+      for (var _y = 0; _y < ctx.canvas.height; _y += patternSize * 2) {
+        ctx.beginPath();
         ctx.moveTo(0, _y);
         ctx.lineTo(ctx.canvas.width, _y);
+        ctx.stroke();
       }
-      ctx.stroke();
     } else if (bgPattern === "grid") {
-      ctx.strokeStyle = "#ccc";
-      for (var _x = 0; _x < ctx.canvas.width; _x += 10) {
+      ctx.strokeStyle = "#999";
+      ctx.lineWidth = patternSize / 10;
+      for (var _x = 0; _x < ctx.canvas.width; _x += patternSize * 2) {
         ctx.beginPath();
         ctx.moveTo(_x, 0);
         ctx.lineTo(_x, ctx.canvas.height);
         ctx.stroke();
       }
-      for (var _y2 = 0; _y2 < ctx.canvas.height; _y2 += 10) {
+      for (var _y2 = 0; _y2 < ctx.canvas.height; _y2 += patternSize * 2) {
         ctx.beginPath();
         ctx.moveTo(0, _y2);
         ctx.lineTo(ctx.canvas.width, _y2);
         ctx.stroke();
       }
     }
+    ctx.restore();
   };
   var startDrawing = function startDrawing(e) {
     if (tool === "select") {
@@ -137,8 +151,10 @@ var Whiteboard = function Whiteboard() {
     }
   };
   var endDrawing = function endDrawing() {
+    if (tool !== "text") setText("");
     setDrawing(false);
     setStartPoint(null);
+    saveDrawingState();
   };
   var draw = function draw(e) {
     if (!drawing || tool === "text" || tool === "select") return;
@@ -169,23 +185,53 @@ var Whiteboard = function Whiteboard() {
         height: Math.abs(newHeight)
       });
     }
+    if (tool === "pencil" || tool === "eraser") {
+      setCursorSize({
+        x: e.clientX,
+        y: e.clientY
+      });
+    }
+  };
+  var handleClick = function handleClick(e) {
+    if (tool === "text") {
+      var ctx = canvasRef.current.getContext("2d");
+      ctx.fillStyle = color;
+      ctx.font = "".concat(size * 2, "px Arial");
+      ctx.fillText(text, e.clientX, e.clientY);
+      setText("");
+      saveDrawingState();
+    }
   };
   var handleDeleteSelection = function handleDeleteSelection() {
     if (!selection) return;
     var canvas = canvasRef.current;
     var ctx = canvas.getContext("2d");
-    ctx.clearRect(selection.x, selection.y, selection.width, selection.height);
+    ctx.save();
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = bgColor; //填入與背景相同的顏色
+    ctx.fillRect(selection.x, selection.y, selection.width, selection.height);
+    drawBackground(ctx); // 重繪背景圖案，不清除整體內容
+
+    ctx.restore();
+    saveDrawingState();
     setSelection(null);
   };
-  var handleTextAdd = function handleTextAdd(e) {
-    if (tool === "text" && text) {
-      var canvas = canvasRef.current;
-      var ctx = canvas.getContext("2d");
-      ctx.font = "".concat(size * 2, "px Arial");
-      ctx.fillStyle = color;
-      ctx.fillText(text, e.clientX, e.clientY);
-      setText("");
+  var restoreDrawing = function restoreDrawing() {
+    var canvas = canvasRef.current;
+    var ctx = canvas.getContext("2d");
+    var savedDrawing = localStorage.getItem("savedDrawing");
+    if (savedDrawing) {
+      var img = new Image();
+      img.onload = function () {
+        return ctx.drawImage(img, 0, 0);
+      };
+      img.src = savedDrawing;
     }
+  };
+  var saveDrawingState = function saveDrawingState() {
+    var canvas = canvasRef.current;
+    var drawingData = canvas.toDataURL();
+    localStorage.setItem("savedDrawing", drawingData);
   };
   var handleSave = function handleSave() {
     var canvas = canvasRef.current;
@@ -195,7 +241,7 @@ var Whiteboard = function Whiteboard() {
     link.click();
   };
   var handleKeyDown = function handleKeyDown(e) {
-    if (e.key === "Delete" || e.key === "Backspace") {
+    if ((e.key === "Delete" || e.key === "Backspace") && tool === "select") {
       handleDeleteSelection();
     }
   };
@@ -208,35 +254,84 @@ var Whiteboard = function Whiteboard() {
     tabIndex: 0
   }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
-      position: "absolute",
-      top: 10,
-      left: 10,
+      position: "fixed",
+      bottom: 10,
+      left: "50%",
+      transform: "translateX(-50%)",
       background: theme === "dark" ? "#333" : "#fff",
       color: theme === "dark" ? "#fff" : "#000",
       padding: "10px",
-      borderRadius: "8px",
+      borderRadius: "20px",
       zIndex: 1,
       display: "flex",
-      flexDirection: "column",
-      gap: "10px"
+      flexDirection: "row",
+      gap: "20px",
+      boxShadow: "0 0 10px rgba(0,0,0,0.5)"
     }
-  }, /*#__PURE__*/_react["default"].createElement("label", null, "Tool:", /*#__PURE__*/_react["default"].createElement("select", {
-    value: tool,
+  }, /*#__PURE__*/_react["default"].createElement("label", {
+    style: {
+      cursor: "pointer"
+    }
+  }, "Pencil", /*#__PURE__*/_react["default"].createElement("input", {
+    type: "radio",
+    name: "tool",
+    value: "pencil",
+    checked: tool === "pencil",
     onChange: function onChange(e) {
       return setTool(e.target.value);
+    },
+    style: {
+      display: "none"
     }
-  }, /*#__PURE__*/_react["default"].createElement("option", {
-    value: "pencil"
-  }, "Pencil"), /*#__PURE__*/_react["default"].createElement("option", {
-    value: "eraser"
-  }, "Eraser"), /*#__PURE__*/_react["default"].createElement("option", {
-    value: "select"
-  }, "Select"), /*#__PURE__*/_react["default"].createElement("option", {
-    value: "text"
-  }, "Text"))), /*#__PURE__*/_react["default"].createElement("label", null, "Size:", /*#__PURE__*/_react["default"].createElement("input", {
+  })), /*#__PURE__*/_react["default"].createElement("label", {
+    style: {
+      cursor: "pointer"
+    }
+  }, "Eraser", /*#__PURE__*/_react["default"].createElement("input", {
+    type: "radio",
+    name: "tool",
+    value: "eraser",
+    checked: tool === "eraser",
+    onChange: function onChange(e) {
+      return setTool(e.target.value);
+    },
+    style: {
+      display: "none"
+    }
+  })), /*#__PURE__*/_react["default"].createElement("label", {
+    style: {
+      cursor: "pointer"
+    }
+  }, "Select", /*#__PURE__*/_react["default"].createElement("input", {
+    type: "radio",
+    name: "tool",
+    value: "select",
+    checked: tool === "select",
+    onChange: function onChange(e) {
+      return setTool(e.target.value);
+    },
+    style: {
+      display: "none"
+    }
+  })), /*#__PURE__*/_react["default"].createElement("label", {
+    style: {
+      cursor: "pointer"
+    }
+  }, "Text", /*#__PURE__*/_react["default"].createElement("input", {
+    type: "radio",
+    name: "tool",
+    value: "text",
+    checked: tool === "text",
+    onChange: function onChange(e) {
+      return setTool(e.target.value);
+    },
+    style: {
+      display: "none"
+    }
+  })), /*#__PURE__*/_react["default"].createElement("label", null, "Size:", /*#__PURE__*/_react["default"].createElement("input", {
     type: "range",
     min: "1",
-    max: "20",
+    max: "50",
     value: size,
     onChange: function onChange(e) {
       return setSize(Number(e.target.value));
@@ -247,13 +342,13 @@ var Whiteboard = function Whiteboard() {
     onChange: function onChange(e) {
       return setColor(e.target.value);
     }
-  })), /*#__PURE__*/_react["default"].createElement("label", null, "Background Color:", /*#__PURE__*/_react["default"].createElement("input", {
+  })), /*#__PURE__*/_react["default"].createElement("label", null, "Background:", /*#__PURE__*/_react["default"].createElement("input", {
     type: "color",
     value: bgColor,
     onChange: function onChange(e) {
       return setBgColor(e.target.value);
     }
-  })), /*#__PURE__*/_react["default"].createElement("label", null, "Background Pattern:", /*#__PURE__*/_react["default"].createElement("select", {
+  })), /*#__PURE__*/_react["default"].createElement("label", null, "Pattern:", /*#__PURE__*/_react["default"].createElement("select", {
     value: bgPattern,
     onChange: function onChange(e) {
       return setBgPattern(e.target.value);
@@ -266,7 +361,15 @@ var Whiteboard = function Whiteboard() {
     value: "line"
   }, "Line"), /*#__PURE__*/_react["default"].createElement("option", {
     value: "grid"
-  }, "Grid"))), tool === "text" && /*#__PURE__*/_react["default"].createElement("input", {
+  }, "Grid"))), /*#__PURE__*/_react["default"].createElement("label", null, "Pattern Size:", /*#__PURE__*/_react["default"].createElement("input", {
+    type: "range",
+    min: "1",
+    max: "50",
+    value: patternSize,
+    onChange: function onChange(e) {
+      return setPatternSize(Number(e.target.value));
+    }
+  })), tool === "text" && /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     placeholder: "Enter text",
     value: text,
@@ -279,12 +382,24 @@ var Whiteboard = function Whiteboard() {
     ref: canvasRef,
     onMouseDown: startDrawing,
     onMouseUp: endDrawing,
-    onClick: tool === "text" ? handleTextAdd : null,
+    onMouseMove: handleMouseMove,
+    onClick: handleClick,
     style: {
       border: "1px solid black",
       width: "100%",
       height: "100vh",
       cursor: tool === "select" ? "crosshair" : "default"
+    }
+  }), (tool === "pencil" || tool === "eraser") && !drawing && /*#__PURE__*/_react["default"].createElement("div", {
+    style: {
+      position: "absolute",
+      left: cursorSize.x - size,
+      top: cursorSize.y - size,
+      width: size * 2,
+      height: size * 2,
+      border: "1px solid rgba(0,0,0,0.5)",
+      borderRadius: "50%",
+      pointerEvents: "none"
     }
   }), selection && /*#__PURE__*/_react["default"].createElement("div", {
     style: {
