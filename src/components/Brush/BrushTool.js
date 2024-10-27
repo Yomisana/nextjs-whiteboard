@@ -66,6 +66,10 @@ const BrushTool = forwardRef(
           ? "1px dashed black"
           : "1px solid black";
         cursorRef.current.style.borderRadius = isEraserActive ? "0%" : "50%";
+        cursorRef.current.style.backgroundColor = isEraserActive
+          ? "transparent"
+          : color;
+        cursorRef.current.style.opacity = isEraserActive ? "1" : opacity;
       };
 
       canvas.addEventListener("mousedown", startDrawing);

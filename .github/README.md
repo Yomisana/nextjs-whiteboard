@@ -19,12 +19,12 @@ and enjoy drawing on the whiteboard :D
 
 - [ ] UI
   - [ ] make ui docker
-- [ ] Base Pen
+- [X] Base Pen
   - [x] first Have pen can draw on whiteboard
   - [X] change color of pen
   - [X] change size of pen
   - [X] Earser border are solid
-  - [ ] cursor see the size of pen and color of pen
+  - [X] cursor see the size of pen and color of pen
 - [ ] Eraser
   - [X] have eraser
   - [X] Earser size
