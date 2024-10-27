@@ -85,7 +85,8 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
     width: 800,
     height: 600,
     style: {
-      border: "1px solid black"
+      border: "1px solid black",
+      cursor: "none" // 隱藏系統的滑鼠指標
     }
   }), /*#__PURE__*/_react["default"].createElement("div", {
     ref: cursorRef,

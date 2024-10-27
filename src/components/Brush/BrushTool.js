@@ -87,6 +87,7 @@ const BrushTool = forwardRef(
           height={600}
           style={{
             border: "1px solid black",
+            cursor: "none", // 隱藏系統的滑鼠指標
           }}
         />
         <div
