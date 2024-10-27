@@ -21,41 +21,69 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var Whiteboard = function Whiteboard() {
+  var canvasRef = (0, _react.useRef)(null);
+  // Default color is black
   var _useState = (0, _react.useState)("#000000"),
     _useState2 = _slicedToArray(_useState, 2),
     color = _useState2[0],
     setColor = _useState2[1];
+  // Default brush size is 5
   var _useState3 = (0, _react.useState)(5),
     _useState4 = _slicedToArray(_useState3, 2),
     brushSize = _useState4[0],
     setBrushSize = _useState4[1];
+  // Default opacity is 1
   var _useState5 = (0, _react.useState)(1),
     _useState6 = _slicedToArray(_useState5, 2),
     opacity = _useState6[0],
     setOpacity = _useState6[1];
-  var _useState7 = (0, _react.useState)("#ffffff"),
+  var _useState7 = (0, _react.useState)(false),
     _useState8 = _slicedToArray(_useState7, 2),
-    background = _useState8[0],
-    setBackground = _useState8[1];
-  (0, _react.useEffect)(function () {
-    // 根據背景色調整筆刷色環的顯示
-    if (color === background) {
-      setColor(background === "#ffffff" ? "#000000" : "#ffffff");
+    isEraserActive = _useState8[0],
+    setIsEraserActive = _useState8[1];
+  var handleClearCanvas = function handleClearCanvas() {
+    console.log("Clearing canvas");
+    var canvas = canvasRef.current.getCanvas();
+    if (canvas) {
+      var context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
     }
-  }, [background, color]);
+  };
+  var handleSaveCanvas = function handleSaveCanvas() {
+    var canvas = canvasRef.current.getCanvas();
+    if (canvas) {
+      var link = document.createElement("a");
+      // get date and time for the file name
+      var date = new Date();
+      var dateString = date.toISOString().slice(0, 10);
+      var timeString = date.toLocaleTimeString();
+      link.download = "drawing-".concat(dateString, "-").concat(timeString, ".png");
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+  };
   return /*#__PURE__*/_react["default"].createElement("div", {
     style: {
-      backgroundColor: background,
+      backgroundColor: "#ffffff",
       minHeight: "100vh"
     }
   }, /*#__PURE__*/_react["default"].createElement(_BrushTool["default"], {
-    color: color,
+    ref: canvasRef,
+    color: isEraserActive ? "rgba(0,0,0,0)" : color,
     size: brushSize,
     opacity: opacity
   }), /*#__PURE__*/_react["default"].createElement(_Toolbar["default"], null, /*#__PURE__*/_react["default"].createElement(_ColorPicker["default"], {
     setColor: setColor
   }), /*#__PURE__*/_react["default"].createElement(_OpacitySlider["default"], {
     setOpacity: setOpacity
-  })));
+  }), /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: function onClick() {
+      return setIsEraserActive(!isEraserActive);
+    }
+  }, isEraserActive ? "Switch to Pen" : "Switch to Eraser"), /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: handleClearCanvas
+  }, "Clear"), /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: handleSaveCanvas
+  }, "Save")));
 };
 var _default = exports["default"] = Whiteboard;

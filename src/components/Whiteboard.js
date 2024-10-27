@@ -1,31 +1,61 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import BrushTool from "./Brush/BrushTool";
 import ColorPicker from "./Color/ColorPicker";
 import OpacitySlider from "./Opacity/OpacitySlider";
 import Toolbar from "./Toolbar/Toolbar";
 
 const Whiteboard = () => {
+  const canvasRef = useRef(null);
+  // Default color is black
   const [color, setColor] = useState("#000000");
+  // Default brush size is 5
   const [brushSize, setBrushSize] = useState(5);
+  // Default opacity is 1
   const [opacity, setOpacity] = useState(1);
-  const [background, setBackground] = useState("#ffffff");
 
-  useEffect(() => {
-    // 根據背景色調整筆刷色環的顯示
-    if (color === background) {
-      setColor(background === "#ffffff" ? "#000000" : "#ffffff");
+  const [isEraserActive, setIsEraserActive] = useState(false);
+
+  const handleClearCanvas = () => {
+    console.log("Clearing canvas");
+    const canvas = canvasRef.current.getCanvas();
+    if (canvas) {
+      const context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
     }
-  }, [background, color]);
+  };
+
+  const handleSaveCanvas = () => {
+    const canvas = canvasRef.current.getCanvas();
+    if (canvas) {
+      const link = document.createElement("a");
+      // get date and time for the file name
+      const date = new Date();
+      const dateString = date.toISOString().slice(0, 10);
+      const timeString = date.toLocaleTimeString();
+      link.download = `drawing-${dateString}-${timeString}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+  };
 
   return (
-    <div style={{ backgroundColor: background, minHeight: "100vh" }}>
-      <BrushTool color={color} size={brushSize} opacity={opacity} />
+    <div style={{ backgroundColor: "#ffffff", minHeight: "100vh" }}>
+      <BrushTool
+        ref={canvasRef}
+        color={isEraserActive ? "rgba(0,0,0,0)" : color}
+        size={brushSize}
+        opacity={opacity}
+      />
       <Toolbar>
         <ColorPicker setColor={setColor} />
         <OpacitySlider setOpacity={setOpacity} />
-        {/* 可以再加入 BrushSelector 讓使用者選擇不同的筆刷圖案 */}
+        <button onClick={() => setIsEraserActive(!isEraserActive)}>
+          {isEraserActive ? "Switch to Pen" : "Switch to Eraser"}
+        </button>
+        <button onClick={handleClearCanvas}>Clear</button>
+        <button onClick={handleSaveCanvas}>Save</button>
       </Toolbar>
     </div>
   );

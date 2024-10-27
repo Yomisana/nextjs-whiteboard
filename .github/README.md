@@ -17,12 +17,40 @@ and enjoy drawing on the whiteboard :D
 
 # Features
 
-- [x] first Have pen can draw on whiteboard
-- [X] change color of pen
-- [X] change size of pen
-- [ ] cursor see the size of pen and color of pen
-- [ ] have eraser
-- [ ] save the drawing
-- [ ] clear the drawing
-- [ ] make modal to check you want to clear the drawing or not
+- [ ] UI
+  - [ ] make ui docker
+- [ ] Base Pen
+  - [x] first Have pen can draw on whiteboard
+  - [X] change color of pen
+  - [X] change size of pen
+  - [ ] cursor see the size of pen and color of pen
+- [ ] Eraser
+  - [ ] have eraser
+  - [ ] Earser size
+  - [ ] Earser like mac shake earser make more bigger
+- [ ] Shapes
+  - [ ] Line
+  - [ ] Circle
+  - [ ] Rectangle
+  - [ ] Triangle
+  - [ ] Polygon
+
+- [ ] Text
+- [ ] Image
+- [ ] Zoom
+- [ ] Pan
+- [ ] Select
+- [ ] Cut
+- [ ] Copy
+- [ ] Paste
+- [ ] Undo
+- [ ] Redo
 - [ ] 
+
+- [X] save the drawing
+- [X] clear the drawing
+
+- [ ] make modal to check you want to clear the drawing or not
+- [ ] Background of whiteboard
+  - [ ] Background color
+  - [ ] Background Pattern (like dot, grid)
