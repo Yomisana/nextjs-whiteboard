@@ -62,6 +62,8 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       cursorRef.current.style.top = "".concat(offsetY, "px");
       cursorRef.current.style.width = "".concat(size, "px");
       cursorRef.current.style.height = "".concat(size, "px");
+      cursorRef.current.style.border = isEraserActive ? "1px dashed black" : "1px solid black";
+      cursorRef.current.style.borderRadius = isEraserActive ? "0%" : "50%";
     };
     canvas.addEventListener("mousedown", startDrawing);
     canvas.addEventListener("mousemove", draw);

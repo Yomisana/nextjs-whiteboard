@@ -62,6 +62,10 @@ const BrushTool = forwardRef(
         cursorRef.current.style.top = `${offsetY}px`;
         cursorRef.current.style.width = `${size}px`;
         cursorRef.current.style.height = `${size}px`;
+        cursorRef.current.style.border = isEraserActive
+          ? "1px dashed black"
+          : "1px solid black";
+        cursorRef.current.style.borderRadius = isEraserActive ? "0%" : "50%";
       };
 
       canvas.addEventListener("mousedown", startDrawing);

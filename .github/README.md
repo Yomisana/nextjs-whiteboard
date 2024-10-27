@@ -23,10 +23,12 @@ and enjoy drawing on the whiteboard :D
   - [x] first Have pen can draw on whiteboard
   - [X] change color of pen
   - [X] change size of pen
+  - [X] Earser border are solid
   - [ ] cursor see the size of pen and color of pen
 - [ ] Eraser
   - [X] have eraser
   - [X] Earser size
+  - [X] Earser border are dashed
   - [ ] Earser like mac shake earser make more bigger
 - [ ] Shapes
   - [ ] Line
