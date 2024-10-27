@@ -30,6 +30,7 @@ const Whiteboard = () => {
     const canvas = canvasRef.current.getCanvas();
     if (canvas) {
       const link = document.createElement("a");
+      // link.download = "drawing.png";
       // get date and time for the file name
       const date = new Date();
       const dateString = date.toISOString().slice(0, 10);
@@ -38,6 +39,10 @@ const Whiteboard = () => {
       link.href = canvas.toDataURL("image/png");
       link.click();
     }
+  };
+
+  const handleBrushSizeChange = (size) => {
+    setBrushSize(Math.max(size, 1));
   };
 
   return (
@@ -50,7 +55,21 @@ const Whiteboard = () => {
       />
       <Toolbar>
         <ColorPicker setColor={setColor} />
-        <OpacitySlider setOpacity={setOpacity} />
+        <div>
+          <span>opacity</span>
+          <OpacitySlider setOpacity={setOpacity} />
+        </div>
+        <div>
+          <span>brush size</span>
+          <input
+            type="range"
+            value={brushSize}
+            onChange={(e) => handleBrushSizeChange(Number(e.target.value))}
+            min="1"
+            max="50" // 你可以根據需要調整最大值
+          />
+        </div>
+
         <button onClick={() => setIsEraserActive(!isEraserActive)}>
           {isEraserActive ? "Switch to Pen" : "Switch to Eraser"}
         </button>

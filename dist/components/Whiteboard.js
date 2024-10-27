@@ -53,6 +53,7 @@ var Whiteboard = function Whiteboard() {
     var canvas = canvasRef.current.getCanvas();
     if (canvas) {
       var link = document.createElement("a");
+      // link.download = "drawing.png";
       // get date and time for the file name
       var date = new Date();
       var dateString = date.toISOString().slice(0, 10);
@@ -61,6 +62,9 @@ var Whiteboard = function Whiteboard() {
       link.href = canvas.toDataURL("image/png");
       link.click();
     }
+  };
+  var handleBrushSizeChange = function handleBrushSizeChange(size) {
+    setBrushSize(Math.max(size, 1));
   };
   return /*#__PURE__*/_react["default"].createElement("div", {
     style: {
@@ -74,9 +78,17 @@ var Whiteboard = function Whiteboard() {
     opacity: opacity
   }), /*#__PURE__*/_react["default"].createElement(_Toolbar["default"], null, /*#__PURE__*/_react["default"].createElement(_ColorPicker["default"], {
     setColor: setColor
-  }), /*#__PURE__*/_react["default"].createElement(_OpacitySlider["default"], {
+  }), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, "opacity"), /*#__PURE__*/_react["default"].createElement(_OpacitySlider["default"], {
     setOpacity: setOpacity
-  }), /*#__PURE__*/_react["default"].createElement("button", {
+  })), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, "brush size"), /*#__PURE__*/_react["default"].createElement("input", {
+    type: "range",
+    value: brushSize,
+    onChange: function onChange(e) {
+      return handleBrushSizeChange(Number(e.target.value));
+    },
+    min: "1",
+    max: "50" // 你可以根據需要調整最大值
+  })), /*#__PURE__*/_react["default"].createElement("button", {
     onClick: function onClick() {
       return setIsEraserActive(!isEraserActive);
     }
