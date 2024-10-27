@@ -18,8 +18,9 @@ and enjoy drawing on the whiteboard :D
 # Features
 
 - [x] first Have pen can draw on whiteboard
-- [ ] change color of pen
-- [ ] change size of pen
+- [X] change color of pen
+- [X] change size of pen
+- [ ] cursor see the size of pen and color of pen
 - [ ] have eraser
 - [ ] save the drawing
 - [ ] clear the drawing
