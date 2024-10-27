@@ -9,6 +9,7 @@ const BrushTool = forwardRef(
   ({ color, size, opacity, isEraserActive }, ref) => {
     const canvasRef = useRef(null);
     const isDrawing = useRef(false);
+    const cursorRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
       getCanvas: () => canvasRef.current,
@@ -53,27 +54,54 @@ const BrushTool = forwardRef(
         context.beginPath();
       };
 
+      const updateCursor = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
+        cursorRef.current.style.left = `${offsetX}px`;
+        cursorRef.current.style.top = `${offsetY}px`;
+        cursorRef.current.style.width = `${size}px`;
+        cursorRef.current.style.height = `${size}px`;
+      };
+
       canvas.addEventListener("mousedown", startDrawing);
       canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mousemove", updateCursor);
       canvas.addEventListener("mouseup", stopDrawing);
       canvas.addEventListener("mouseout", stopDrawing);
 
       return () => {
         canvas.removeEventListener("mousedown", startDrawing);
         canvas.removeEventListener("mousemove", draw);
+        canvas.removeEventListener("mousemove", updateCursor);
         canvas.removeEventListener("mouseup", stopDrawing);
         canvas.removeEventListener("mouseout", stopDrawing);
       };
     }, [color, size, opacity, isEraserActive]);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      width={800}
-      height={600}
-      style={{ border: "1px solid black" }}
-    />
-  );
-});
+    return (
+      <div style={{ position: "relative" }}>
+        <canvas
+          ref={canvasRef}
+          width={800}
+          height={600}
+          style={{
+            border: "1px solid black",
+          }}
+        />
+        <div
+          ref={cursorRef}
+          style={{
+            position: "absolute",
+            border: "1px solid black",
+            borderRadius: "50%",
+            pointerEvents: "none",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </div>
+    );
+  }
+);
 
 export default BrushTool;

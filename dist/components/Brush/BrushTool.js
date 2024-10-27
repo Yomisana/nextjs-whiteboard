@@ -15,6 +15,7 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
     isEraserActive = _ref.isEraserActive;
   var canvasRef = (0, _react.useRef)(null);
   var isDrawing = (0, _react.useRef)(false);
+  var cursorRef = (0, _react.useRef)(null);
   (0, _react.useImperativeHandle)(ref, function () {
     return {
       getCanvas: function getCanvas() {
@@ -53,24 +54,48 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       isDrawing.current = false;
       context.beginPath();
     };
+    var updateCursor = function updateCursor(e) {
+      var rect = canvas.getBoundingClientRect();
+      var offsetX = e.clientX - rect.left;
+      var offsetY = e.clientY - rect.top;
+      cursorRef.current.style.left = "".concat(offsetX, "px");
+      cursorRef.current.style.top = "".concat(offsetY, "px");
+      cursorRef.current.style.width = "".concat(size, "px");
+      cursorRef.current.style.height = "".concat(size, "px");
+    };
     canvas.addEventListener("mousedown", startDrawing);
     canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mousemove", updateCursor);
     canvas.addEventListener("mouseup", stopDrawing);
     canvas.addEventListener("mouseout", stopDrawing);
     return function () {
       canvas.removeEventListener("mousedown", startDrawing);
       canvas.removeEventListener("mousemove", draw);
+      canvas.removeEventListener("mousemove", updateCursor);
       canvas.removeEventListener("mouseup", stopDrawing);
       canvas.removeEventListener("mouseout", stopDrawing);
     };
   }, [color, size, opacity, isEraserActive]);
-  return /*#__PURE__*/_react["default"].createElement("canvas", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    style: {
+      position: "relative"
+    }
+  }, /*#__PURE__*/_react["default"].createElement("canvas", {
     ref: canvasRef,
     width: 800,
     height: 600,
     style: {
       border: "1px solid black"
     }
-  });
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    ref: cursorRef,
+    style: {
+      position: "absolute",
+      border: "1px solid black",
+      borderRadius: "50%",
+      pointerEvents: "none",
+      transform: "translate(-50%, -50%)"
+    }
+  }));
 });
 var _default = exports["default"] = BrushTool;
