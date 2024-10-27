@@ -41,6 +41,14 @@ var Whiteboard = function Whiteboard() {
     _useState8 = _slicedToArray(_useState7, 2),
     isEraserActive = _useState8[0],
     setIsEraserActive = _useState8[1];
+  var _useState9 = (0, _react.useState)(true),
+    _useState10 = _slicedToArray(_useState9, 2),
+    isPenActive = _useState10[0],
+    setIsPenActive = _useState10[1];
+  var _useState11 = (0, _react.useState)(5),
+    _useState12 = _slicedToArray(_useState11, 2),
+    eraserSize = _useState12[0],
+    setEraserSize = _useState12[1];
   var handleClearCanvas = function handleClearCanvas() {
     console.log("Clearing canvas");
     var canvas = canvasRef.current.getCanvas();
@@ -53,7 +61,6 @@ var Whiteboard = function Whiteboard() {
     var canvas = canvasRef.current.getCanvas();
     if (canvas) {
       var link = document.createElement("a");
-      // link.download = "drawing.png";
       // get date and time for the file name
       var date = new Date();
       var dateString = date.toISOString().slice(0, 10);
@@ -66,17 +73,31 @@ var Whiteboard = function Whiteboard() {
   var handleBrushSizeChange = function handleBrushSizeChange(size) {
     setBrushSize(Math.max(size, 1));
   };
+  var handleEraserSizeChange = function handleEraserSizeChange(size) {
+    setEraserSize(Math.max(size, 1));
+  };
   return /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       backgroundColor: "#ffffff",
-      minHeight: "100vh"
+      minHeight: "100dvh"
     }
   }, /*#__PURE__*/_react["default"].createElement(_BrushTool["default"], {
     ref: canvasRef,
-    color: isEraserActive ? "rgba(0,0,0,0)" : color,
-    size: brushSize,
-    opacity: opacity
-  }), /*#__PURE__*/_react["default"].createElement(_Toolbar["default"], null, /*#__PURE__*/_react["default"].createElement(_ColorPicker["default"], {
+    color: color,
+    size: isEraserActive ? eraserSize : brushSize,
+    opacity: opacity,
+    isEraserActive: isEraserActive
+  }), /*#__PURE__*/_react["default"].createElement(_Toolbar["default"], null, /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: function onClick() {
+      setIsPenActive(true);
+      setIsEraserActive(false);
+    }
+  }, "Pen"), /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: function onClick() {
+      setIsPenActive(false);
+      setIsEraserActive(true);
+    }
+  }, "Eraser"), isPenActive && /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_ColorPicker["default"], {
     setColor: setColor
   }), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, "opacity"), /*#__PURE__*/_react["default"].createElement(_OpacitySlider["default"], {
     setOpacity: setOpacity
@@ -88,11 +109,15 @@ var Whiteboard = function Whiteboard() {
     },
     min: "1",
     max: "50" // 你可以根據需要調整最大值
-  })), /*#__PURE__*/_react["default"].createElement("button", {
-    onClick: function onClick() {
-      return setIsEraserActive(!isEraserActive);
-    }
-  }, isEraserActive ? "Switch to Pen" : "Switch to Eraser"), /*#__PURE__*/_react["default"].createElement("button", {
+  }))), isEraserActive && /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, "eraser size"), /*#__PURE__*/_react["default"].createElement("input", {
+    type: "range",
+    value: eraserSize,
+    onChange: function onChange(e) {
+      return handleEraserSizeChange(Number(e.target.value));
+    },
+    min: "1",
+    max: "50" // 你可以根據需要調整最大值
+  }))), /*#__PURE__*/_react["default"].createElement("button", {
     onClick: handleClearCanvas
   }, "Clear"), /*#__PURE__*/_react["default"].createElement("button", {
     onClick: handleSaveCanvas

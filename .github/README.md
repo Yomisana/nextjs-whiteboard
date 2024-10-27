@@ -25,8 +25,8 @@ and enjoy drawing on the whiteboard :D
   - [X] change size of pen
   - [ ] cursor see the size of pen and color of pen
 - [ ] Eraser
-  - [ ] have eraser
-  - [ ] Earser size
+  - [X] have eraser
+  - [X] Earser size
   - [ ] Earser like mac shake earser make more bigger
 - [ ] Shapes
   - [ ] Line

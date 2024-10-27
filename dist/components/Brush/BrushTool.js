@@ -11,7 +11,8 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   var color = _ref.color,
     size = _ref.size,
-    opacity = _ref.opacity;
+    opacity = _ref.opacity,
+    isEraserActive = _ref.isEraserActive;
   var canvasRef = (0, _react.useRef)(null);
   var isDrawing = (0, _react.useRef)(false);
   (0, _react.useImperativeHandle)(ref, function () {
@@ -30,10 +31,10 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       var rect = canvas.getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
-      context.globalCompositeOperation = color === "rgba(0,0,0,0)" ? "destination-out" : "source-over";
+      context.globalCompositeOperation = isEraserActive ? "destination-out" : "source-over";
       context.lineWidth = size;
       context.lineCap = "round";
-      context.strokeStyle = color;
+      context.strokeStyle = isEraserActive ? "rgba(0,0,0,1)" : color;
       context.globalAlpha = opacity;
       context.lineTo(offsetX, offsetY);
       context.stroke();
@@ -62,7 +63,7 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       canvas.removeEventListener("mouseup", stopDrawing);
       canvas.removeEventListener("mouseout", stopDrawing);
     };
-  }, [color, size, opacity]);
+  }, [color, size, opacity, isEraserActive]);
   return /*#__PURE__*/_react["default"].createElement("canvas", {
     ref: canvasRef,
     width: 800,

@@ -5,7 +5,7 @@ const Toolbar = ({ children }) => {
     <div
       style={{
         position: "fixed",
-        bottom: 0,
+        bottom: "20px",
         left: "50%",
         transform: "translateX(-50%)",
         display: "flex",

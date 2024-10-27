@@ -11,7 +11,7 @@ var Toolbar = function Toolbar(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       position: "fixed",
-      bottom: 0,
+      bottom: "20px",
       left: "50%",
       transform: "translateX(-50%)",
       display: "flex",

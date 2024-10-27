@@ -16,6 +16,8 @@ const Whiteboard = () => {
   const [opacity, setOpacity] = useState(1);
 
   const [isEraserActive, setIsEraserActive] = useState(false);
+  const [isPenActive, setIsPenActive] = useState(true);
+  const [eraserSize, setEraserSize] = useState(5);
 
   const handleClearCanvas = () => {
     console.log("Clearing canvas");
@@ -30,7 +32,6 @@ const Whiteboard = () => {
     const canvas = canvasRef.current.getCanvas();
     if (canvas) {
       const link = document.createElement("a");
-      // link.download = "drawing.png";
       // get date and time for the file name
       const date = new Date();
       const dateString = date.toISOString().slice(0, 10);
@@ -45,34 +46,69 @@ const Whiteboard = () => {
     setBrushSize(Math.max(size, 1));
   };
 
+  const handleEraserSizeChange = (size) => {
+    setEraserSize(Math.max(size, 1));
+  };
+
   return (
-    <div style={{ backgroundColor: "#ffffff", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#ffffff", minHeight: "100dvh" }}>
       <BrushTool
         ref={canvasRef}
-        color={isEraserActive ? "rgba(0,0,0,0)" : color}
-        size={brushSize}
+        color={color}
+        size={isEraserActive ? eraserSize : brushSize}
         opacity={opacity}
+        isEraserActive={isEraserActive}
       />
       <Toolbar>
-        <ColorPicker setColor={setColor} />
-        <div>
-          <span>opacity</span>
-          <OpacitySlider setOpacity={setOpacity} />
-        </div>
-        <div>
-          <span>brush size</span>
-          <input
-            type="range"
-            value={brushSize}
-            onChange={(e) => handleBrushSizeChange(Number(e.target.value))}
-            min="1"
-            max="50" // 你可以根據需要調整最大值
-          />
-        </div>
-
-        <button onClick={() => setIsEraserActive(!isEraserActive)}>
-          {isEraserActive ? "Switch to Pen" : "Switch to Eraser"}
+        <button
+          onClick={() => {
+            setIsPenActive(true);
+            setIsEraserActive(false);
+          }}
+        >
+          Pen
         </button>
+        <button
+          onClick={() => {
+            setIsPenActive(false);
+            setIsEraserActive(true);
+          }}
+        >
+          Eraser
+        </button>
+        {isPenActive && (
+          <div>
+            <ColorPicker setColor={setColor} />
+            <div>
+              <span>opacity</span>
+              <OpacitySlider setOpacity={setOpacity} />
+            </div>
+            <div>
+              <span>brush size</span>
+              <input
+                type="range"
+                value={brushSize}
+                onChange={(e) => handleBrushSizeChange(Number(e.target.value))}
+                min="1"
+                max="50" // 你可以根據需要調整最大值
+              />
+            </div>
+          </div>
+        )}
+        {isEraserActive && (
+          <div>
+            <div>
+              <span>eraser size</span>
+              <input
+                type="range"
+                value={eraserSize}
+                onChange={(e) => handleEraserSizeChange(Number(e.target.value))}
+                min="1"
+                max="50" // 你可以根據需要調整最大值
+              />
+            </div>
+          </div>
+        )}
         <button onClick={handleClearCanvas}>Clear</button>
         <button onClick={handleSaveCanvas}>Save</button>
       </Toolbar>
