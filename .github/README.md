@@ -4,6 +4,16 @@ This is a whiteboard for Nextjs. It is a simple whiteboard that allows you to dr
 # Why?
 Cause I need a whiteboard to draw on website (not at else app or website)and right now using nextjs to develop website. So see not have a whiteboard in nextjs. so I opensource it and share with everyone :D
 
+# TOC
+- [Nextjs Whiteboard](#nextjs-whiteboard)
+- [Why?](#why)
+- [TOC](#toc)
+- [How to use?](#how-to-use)
+- [Features](#features)
+- [You are developer?](#you-are-developer)
+  - [when you out of this project](#when-you-out-of-this-project)
+- [Any idea?](#any-idea)
+
 # How to use?
 1. npm install nextjs-whiteboard
 2. import the component to your page
@@ -25,13 +35,18 @@ Cause I need a whiteboard to draw on website (not at else app or website)and rig
   - [X] Earser size
   - [X] Earser border are dashed
   - [ ] Earser like mac shake earser make more bigger
+- [X] save the whiteboard
+- [X] clear the whiteboard
 - [ ] Shapes
   - [ ] Line
   - [ ] Circle
   - [ ] Rectangle
   - [ ] Triangle
   - [ ] Polygon
-
+- [ ] make modal to check you want to clear the drawing or not
+- [ ] Background of whiteboard
+  - [ ] Background color
+  - [ ] Background Pattern (like dot, grid)
 - [ ] Text
 - [ ] Image
 - [ ] Zoom
@@ -42,15 +57,23 @@ Cause I need a whiteboard to draw on website (not at else app or website)and rig
 - [ ] Paste
 - [ ] Undo
 - [ ] Redo
-- [ ] 
 
-- [X] save the drawing
-- [X] clear the drawing
 
-- [ ] make modal to check you want to clear the drawing or not
-- [ ] Background of whiteboard
-  - [ ] Background color
-  - [ ] Background Pattern (like dot, grid)
+
+# You are developer?
+> If you want build this project, you can follow this step, make this repo in your local and link to your nextjs project, not download from npm.
+1. clone this project
+```git clone https://github.com/yomisana/nextjs-whiteboard.git && cd nextjs-whiteboard```
+2. ```npm install && npm link && code .```
+3. nextjs-whiteboard run ```npm run dev``` and keep this terminal open
+4. create new or exist nextjs project and link nextjs-whiteboard to nextjs project
+5. ```npm link nextjs-whiteboard```
+6. nextjs project ```npm run dev```
+7. enjoy coding :D
+## when you out of this project
+1. nextjs-whiteboard run ```npm unlink```
+2. nextjs project ```npm unlink nextjs-whiteboard```
+3. and you can remove nextjs-whiteboard folder
 
 # Any idea?
 If you have any idea or feature that you want to add to this whiteboard, feel free to open an issue or pull request. I will be happy to help you :D
