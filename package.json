@@ -1,6 +1,6 @@
 {
   "name": "nextjs-whiteboard",
-  "version": "2.1.0",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
     "dev": "node ./.vscode/watch.js",
@@ -11,7 +11,7 @@
   ],
   "keywords": [],
   "author": "yomisana",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "description": "",
   "dependencies": {
     "next": "^15.0.1",

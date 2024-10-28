@@ -13,6 +13,8 @@ Cause I need a whiteboard to draw on website (not at else app or website)and rig
 - [You are developer?](#you-are-developer)
   - [when you out of this project](#when-you-out-of-this-project)
 - [Any idea?](#any-idea)
+- [License](#license)
+- [Copyright](#copyright)
 
 # How to use?
 1. npm install nextjs-whiteboard
@@ -77,3 +79,10 @@ Cause I need a whiteboard to draw on website (not at else app or website)and rig
 
 # Any idea?
 If you have any idea or feature that you want to add to this whiteboard, feel free to open an issue or pull request. I will be happy to help you :D
+
+
+# License
+This project is licensed under the Apache License 2.0. See the [LICENSE](./.github/LICENSE) file for details.
+
+# Copyright
+© 2024, yomisana. All rights reserved.
