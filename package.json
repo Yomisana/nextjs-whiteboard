@@ -1,6 +1,6 @@
 {
   "name": "nextjs-whiteboard",
-  "version": "1.0.1",
+  "version": "2.1.0",
   "main": "dist/index.js",
   "scripts": {
     "dev": "node ./.vscode/watch.js",
