@@ -1,11 +1,10 @@
 {
   "name": "nextjs-whiteboard",
-  "version": "1.2.0",
+  "version": "2.1.0",
   "main": "dist/index.js",
   "scripts": {
     "dev": "node ./.vscode/watch.js",
-    "build": "babel src --out-dir dist --copy-files",
-    "publish_2_npm": "npm login && npm publish"
+    "build": "babel src --out-dir dist --copy-files"
   },
   "files": [
     "dist"
