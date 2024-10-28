@@ -82,7 +82,7 @@ If you have any idea or feature that you want to add to this whiteboard, feel fr
 
 
 # License
-This project is licensed under the Apache License 2.0. See the [LICENSE](./.github/LICENSE) file for details.
+This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE) file for details.
 
 # Copyright
 © 2024, yomisana. All rights reserved.
