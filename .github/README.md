@@ -2,18 +2,13 @@
 This is a whiteboard for Nextjs. It is a simple whiteboard that allows you to draw on it. It is built using Nextjs.
 
 # Why?
-Cause I need a whiteboard to draw on website and right now using nextjs to develop website. So see not have a whiteboard in nextjs. so I opensource it and share with everyone :D
+Cause I need a whiteboard to draw on website (not at else app or website)and right now using nextjs to develop website. So see not have a whiteboard in nextjs. so I opensource it and share with everyone :D
 
 # How to use?
-1. npm install
-
-and then import the component to your page
-
-then you can use the whiteboard component like this
-
-and enjoy drawing on the whiteboard :D
-
-
+1. npm install nextjs-whiteboard
+2. import the component to your page
+3. use the whiteboard component
+4. enjoy drawing on the whiteboard :D
 
 # Features
 
@@ -56,3 +51,6 @@ and enjoy drawing on the whiteboard :D
 - [ ] Background of whiteboard
   - [ ] Background color
   - [ ] Background Pattern (like dot, grid)
+
+# Any idea?
+If you have any idea or feature that you want to add to this whiteboard, feel free to open an issue or pull request. I will be happy to help you :D
