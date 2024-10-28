@@ -3,9 +3,9 @@
   "version": "1.1.0",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "node watch.js", 
+    "dev": "node ./.vscode/watch.js", 
     "build": "babel src --out-dir dist --copy-files",
-    "npm_publish": "npm publish && npm publish"
+    "publish_2_npm": "npm login && npm publish"
   },
   "files": [
     "dist"
