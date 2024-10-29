@@ -23,4 +23,13 @@ function saveBoard(canvas) {
   }
 }
 
-export { filename, dev, saveBoard };
+function cleanBoard(canvas) {
+  if (canvas) {
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+const Boardfunction = { saveBoard, cleanBoard };
+
+export { filename, dev, Boardfunction };

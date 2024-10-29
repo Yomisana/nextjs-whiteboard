@@ -17,23 +17,6 @@ import { filename, dev } from "./Utils";
 const Whiteboard = () => {
   const canvasRef = useRef(null);
 
-  // const handleClearCanvas = () => {
-  //   const canvas = canvasRef.current;
-  //   if (canvas) {
-  //     const context = canvas.getContext("2d");
-  //     context.clearRect(0, 0, canvas.width, canvas.height);
-  //   }
-  // };
-
-  // const handleSaveCanvas = () => {
-  //   const canvas = canvasRef.current;
-  //   if (canvas) {
-  //     const link = document.createElement("a");
-  //     link.download = `${filename}`;
-  //     link.href = canvas.toDataURL("image/png");
-  //     link.click();
-  //   }
-  // };
 
   // v2
   // TODO: 開發思路
