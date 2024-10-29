@@ -1,5 +1,5 @@
 # Nextjs Whiteboard
-This is a whiteboard for Nextjs. It is a simple whiteboard that allows you to draw on it. It is built using Nextjs.
+This is a whiteboard for Nextjs. It is a simple whiteboard that allows you to draw on it. It is built for nextjs using react.
 
 # Why?
 Cause I need a whiteboard to draw on website (not at else app or website)and right now using nextjs to develop website. So see not have a whiteboard in nextjs. so I opensource it and share with everyone :D
@@ -9,7 +9,7 @@ Cause I need a whiteboard to draw on website (not at else app or website)and rig
 - [Why?](#why)
 - [TOC](#toc)
 - [How to use?](#how-to-use)
-- [Features](#features)
+- [Features \& TODO](#features--todo)
 - [You are developer?](#you-are-developer)
   - [when you out of this project](#when-you-out-of-this-project)
 - [Any idea?](#any-idea)
@@ -17,26 +17,33 @@ Cause I need a whiteboard to draw on website (not at else app or website)and rig
 - [Copyright](#copyright)
 
 # How to use?
-1. npm install nextjs-whiteboard
-2. import the component to your page
-3. use the whiteboard component
-4. enjoy drawing on the whiteboard :D
+1. ```npm install nextjs-whiteboard```
+2. import & use the component to your page
+```js
+import { Whiteboard } from "nextjs-whiteboard";
 
-# Features
+export default function Page() {
+  return <Whiteboard />;
+}
+```
+3. enjoy drawing on the whiteboard :D
+
+# Features & TODO
 
 - [ ] UI
   - [ ] make ui docker
+  - [ ] whiteboard full screen
 - [X] Base Pen
   - [x] first Have pen can draw on whiteboard
   - [X] change color of pen
   - [X] change size of pen
   - [X] Earser border are solid
   - [X] cursor see the size of pen and color of pen
-- [ ] Eraser
+- [X] Eraser
   - [X] have eraser
   - [X] Earser size
   - [X] Earser border are dashed
-  - [ ] Earser like mac shake earser make more bigger
+  <!-- - [ ] Earser like mac shake earser make more bigger (like shake earser) -->
 - [X] save the whiteboard
 - [X] clear the whiteboard
 - [ ] Shapes

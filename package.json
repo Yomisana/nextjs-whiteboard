@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "keywords": [],
+  "keywords": ["react", "nextjs", "whiteboard" , "component"],
   "author": "yomisana",
   "license": "Apache-2.0",
   "description": "",
