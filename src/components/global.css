@@ -1,0 +1,5 @@
+:root {
+    /* board background */
+    --board-background: white;
+    --board-background-dev: green;
+}

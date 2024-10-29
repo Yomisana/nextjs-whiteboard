@@ -10,6 +10,7 @@ Cause I need a whiteboard to draw on website (not at else app or website)and rig
 - [TOC](#toc)
 - [How to use?](#how-to-use)
 - [Features \& TODO](#features--todo)
+- [TODO v2](#todo-v2)
 - [You are developer?](#you-are-developer)
   - [when you out of this project](#when-you-out-of-this-project)
 - [Any idea?](#any-idea)
@@ -69,7 +70,21 @@ export default function Page() {
 - [ ] Undo
 - [ ] Redo
 
-
+# TODO v2
+> This is a feature that what I want show on 2.2.0 version
+- Background
+  - [X] background color
+  - [X] background pattern
+    - [X] dot
+    - [X] grid
+- Browser
+  - [X] full screen canvas
+  - [X] disable scroll
+- Feature
+  - CSR(Create Save Read)
+    - [ ] Create new board
+    - [ ] Save board
+    - [ ] Read board
 
 # You are developer?
 > If you want build this project, you can follow this step, make this repo in your local and link to your nextjs project, not download from npm.
@@ -91,7 +106,7 @@ If you have any idea or feature that you want to add to this whiteboard, feel fr
 
 
 # License
-This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE) file for details.
+This project is licensed under the Apache License 2.0. See the LICENSE file for details.
 
 # Copyright
 © 2024, yomisana. All rights reserved.

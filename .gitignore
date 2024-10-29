@@ -1,3 +1,8 @@
 node_modules/
 package-lock.json
 dist/
+
+src/components/temp
+
+# src/components/v{0-9}
+src/components/v[0-9]*
