@@ -33,6 +33,7 @@ export default function Page() {
 - [ ] UI
   - [ ] make ui docker
   - [ ] whiteboard full screen
+  - [X] whiteboard disable scroll
 - [X] Base Pen
   - [x] first Have pen can draw on whiteboard
   - [X] change color of pen
@@ -43,7 +44,7 @@ export default function Page() {
   - [X] have eraser
   - [X] Earser size
   - [X] Earser border are dashed
-  <!-- - [ ] Earser like mac shake earser make more bigger (like shake earser) -->
+  - [X] Earser shake cursor make more bigger (like mac find cursor shake)
 - [X] save the whiteboard
 - [X] clear the whiteboard
 - [ ] Shapes

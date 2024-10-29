@@ -77,7 +77,6 @@ const BrushTool = forwardRef(
           : color;
         cursorRef.current.style.opacity = isEraserActive ? "1" : opacity;
 
-        // 計算滑鼠移動速度
         const currentTime = Date.now();
         const deltaX = e.clientX - lastMouseX;
         const deltaY = e.clientY - lastMouseY;
@@ -87,17 +86,15 @@ const BrushTool = forwardRef(
         if (timeElapsed > 0) {
           const speed = distance / timeElapsed;
           const newSize = isEraserActive ? size + speed * 10 : size;
-          setDynamicSize(Math.min(newSize, size * 3)); // 最大放大到原來大小的3倍
+          setDynamicSize(Math.min(newSize, size * 3));
 
-          // 清除之前的縮小延遲
           if (resizeTimeoutRef.current) {
             clearTimeout(resizeTimeoutRef.current);
           }
 
-          // 設置新的縮小延遲
           resizeTimeoutRef.current = setTimeout(() => {
             setDynamicSize(size);
-          }, 300); // 300 毫秒後縮小到原來的大小
+          }, 300);
         }
 
         lastMouseX = e.clientX;
@@ -124,15 +121,38 @@ const BrushTool = forwardRef(
       setDynamicSize(size);
     }, [size]);
 
+    useEffect(() => {
+      console.log(`auto resize canvas`);
+      const canvas = canvasRef.current;
+      const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      return () => {
+        window.removeEventListener("resize", resizeCanvas);
+      };
+    }, []);
+
     return (
-      <div style={{ position: "relative" }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100vh",
+          overflow: "hidden",
+        }}
+      >
         <canvas
           ref={canvasRef}
-          width={800}
-          height={600}
           style={{
             border: "1px solid black",
-            cursor: "none", // 隱藏系統的滑鼠指標
+            cursor: "none",
+            width: "100%",
+            height: "100%",
           }}
         />
         <div

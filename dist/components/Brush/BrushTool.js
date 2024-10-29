@@ -80,8 +80,6 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       cursorRef.current.style.borderRadius = isEraserActive ? "0%" : "50%";
       cursorRef.current.style.backgroundColor = isEraserActive ? "transparent" : color;
       cursorRef.current.style.opacity = isEraserActive ? "1" : opacity;
-
-      // 計算滑鼠移動速度
       var currentTime = Date.now();
       var deltaX = e.clientX - lastMouseX;
       var deltaY = e.clientY - lastMouseY;
@@ -90,17 +88,13 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       if (timeElapsed > 0) {
         var speed = distance / timeElapsed;
         var newSize = isEraserActive ? size + speed * 10 : size;
-        setDynamicSize(Math.min(newSize, size * 3)); // 最大放大到原來大小的3倍
-
-        // 清除之前的縮小延遲
+        setDynamicSize(Math.min(newSize, size * 3));
         if (resizeTimeoutRef.current) {
           clearTimeout(resizeTimeoutRef.current);
         }
-
-        // 設置新的縮小延遲
         resizeTimeoutRef.current = setTimeout(function () {
           setDynamicSize(size);
-        }, 300); // 300 毫秒後縮小到原來的大小
+        }, 300);
       }
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
@@ -122,17 +116,33 @@ var BrushTool = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   (0, _react.useEffect)(function () {
     setDynamicSize(size);
   }, [size]);
+  (0, _react.useEffect)(function () {
+    console.log("auto resize canvas");
+    var canvas = canvasRef.current;
+    var resizeCanvas = function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    return function () {
+      window.removeEventListener("resize", resizeCanvas);
+    };
+  }, []);
   return /*#__PURE__*/_react["default"].createElement("div", {
     style: {
-      position: "relative"
+      position: "relative",
+      width: "100%",
+      height: "100vh",
+      overflow: "hidden"
     }
   }, /*#__PURE__*/_react["default"].createElement("canvas", {
     ref: canvasRef,
-    width: 800,
-    height: 600,
     style: {
       border: "1px solid black",
-      cursor: "none" // 隱藏系統的滑鼠指標
+      cursor: "none",
+      width: "100%",
+      height: "100%"
     }
   }), /*#__PURE__*/_react["default"].createElement("div", {
     ref: cursorRef,
