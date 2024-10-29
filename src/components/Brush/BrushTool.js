@@ -106,14 +106,14 @@ const BrushTool = forwardRef(
       canvas.addEventListener("mousemove", draw);
       canvas.addEventListener("mousemove", updateCursor);
       canvas.addEventListener("mouseup", stopDrawing);
-      canvas.addEventListener("mouseout", stopDrawing);
+      // canvas.addEventListener("mouseout", stopDrawing);
 
       return () => {
         canvas.removeEventListener("mousedown", startDrawing);
         canvas.removeEventListener("mousemove", draw);
         canvas.removeEventListener("mousemove", updateCursor);
         canvas.removeEventListener("mouseup", stopDrawing);
-        canvas.removeEventListener("mouseout", stopDrawing);
+        // canvas.removeEventListener("mouseout", stopDrawing);
       };
     }, [color, size, opacity, isEraserActive, dynamicSize]);
 

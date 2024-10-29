@@ -32,7 +32,8 @@ export default function Page() {
 
 - [ ] UI
   - [ ] make ui docker
-  - [ ] whiteboard full screen
+  - [X] whiteboard full screen
+    - [ ] whiteboard resize will keep the drawing
   - [X] whiteboard disable scroll
 - [X] Base Pen
   - [x] first Have pen can draw on whiteboard

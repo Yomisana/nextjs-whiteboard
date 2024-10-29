@@ -11,13 +11,13 @@ const Whiteboard = () => {
   // Default color is black
   const [color, setColor] = useState("#000000");
   // Default brush size is 5
-  const [brushSize, setBrushSize] = useState(5);
+  const [brushSize, setBrushSize] = useState(30);
   // Default opacity is 1
   const [opacity, setOpacity] = useState(1);
 
   const [isEraserActive, setIsEraserActive] = useState(false);
   const [isPenActive, setIsPenActive] = useState(true);
-  const [eraserSize, setEraserSize] = useState(5);
+  const [eraserSize, setEraserSize] = useState(30);
 
   const handleClearCanvas = () => {
     console.log("Clearing canvas");
