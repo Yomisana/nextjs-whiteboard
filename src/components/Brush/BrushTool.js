@@ -122,11 +122,21 @@ const BrushTool = forwardRef(
     }, [size]);
 
     useEffect(() => {
-      console.log(`auto resize canvas`);
       const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+
       const resizeCanvas = () => {
+        const tempCanvas = document.createElement("canvas");
+        const tempContext = tempCanvas.getContext("2d");
+
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        tempContext.drawImage(canvas, 0, 0);
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        context.drawImage(tempCanvas, 0, 0);
       };
 
       resizeCanvas();
