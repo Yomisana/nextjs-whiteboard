@@ -1,3 +1,5 @@
+# ⚠️ Temporary announcement: There will not be any action on this repository at present. Since the current progress has not yet involved the action of making this whiteboard, we are sorry, but it has been put on npm... ⚠️
+
 # Nextjs Whiteboard
 This is a whiteboard for Nextjs. It is a simple whiteboard that allows you to draw on it. It is built using Nextjs.
 
